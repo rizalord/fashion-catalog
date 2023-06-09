@@ -1,3 +1,4 @@
 export default function Home() {
-  return <div>Home</div>
+  console.log(window._env_.API_URL)
+  return <p>Home</p>
 }
