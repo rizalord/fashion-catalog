@@ -22,11 +22,12 @@ jobs:
 
       - name: Build and push frontend image
         run: |
+          cd frontend
           cp .env.example .env
           chmod +x ./env.sh 
           ./env.sh 
           cp env-config.js ./public/
-          docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} ./frontend
+          docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} .
           docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
           docker tag ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} ghcr.io/${{ github.repository }}/frontend:latest
           docker push ghcr.io/${{ github.repository }}/frontend:latest
