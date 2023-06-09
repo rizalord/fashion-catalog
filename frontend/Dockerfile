@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn
 COPY . .
+COPY .env.example .env
 RUN yarn build
 
 FROM softonic/node-prune as pruner
