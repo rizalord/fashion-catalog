@@ -25,6 +25,7 @@ jobs:
           chmod +x ./env.sh 
           ./env.sh 
           cp env-config.js ./public/
+          cp .env.example .env
           docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} ./frontend
           docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
           docker tag ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} ghcr.io/${{ github.repository }}/frontend:latest
