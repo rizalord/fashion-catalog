@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/ && vite",
-    "build": "tsc && vite build",
+    "generate": "chmod +x ./env.sh && ./env.sh && cp env-config.js ./public/",
+    "dev": "yarn generate && vite",
+    "build": "yarn generate && tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
