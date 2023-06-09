@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_links",
+  "info": {
+    "singularName": "product-link",
+    "pluralName": "product-links",
+    "displayName": "Product Link",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "link": {
+      "type": "string"
+    },
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
+      "inversedBy": "product_links"
+    },
+    "e_commerce": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::e-commerce.e-commerce",
+      "inversedBy": "product_links"
+    }
+  }
+}
