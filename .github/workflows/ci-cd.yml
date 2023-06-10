@@ -56,22 +56,31 @@ jobs:
           docker tag ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} ghcr.io/${{ github.repository }}/frontend:latest
           docker push ghcr.io/${{ github.repository }}/frontend:latest
 
-  # deploy:
-  #   needs: [build-frontend, build-backend]
-  #   runs-on: ubuntu-latest
+  deploy-backend:
+    needs: [build-backend]
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v2
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-  #     - name: Deploy to VPS
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.SSH_HOST }}
-  #         username: ${{ secrets.SSH_USER }}
-  #         key: ${{ secrets.SSH_KEY }}
-  #         script: |
-  #           cd /path/to/your/repository
-  #           git pull
-  #           docker-compose down
-  #           docker-compose up -d
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            sudo docker container rm -f backend
+            sudo docker rmi ghcr.io/${{ github.repository }}/backend:latest
+            sudo docker pull ghcr.io/${{ github.repository }}/backend:latest
+            sudo docker run -d --name backend -p 1337:1337 --network=nginx_network \
+              -e APP_KEYS=${{ secrets.APP_KEYS }} \
+              -e API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT }} \
+              -e ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }} \
+              -e TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT }} \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              -e DATABASE_CLIENT=postgres
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }}
+              -e DATABASE_SSL=true
+              ghcr.io/${{ github.repository }}/backend:latest
