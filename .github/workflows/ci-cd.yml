@@ -57,7 +57,7 @@ jobs:
   #         docker push ghcr.io/${{ github.repository }}/frontend:latest
 
   deploy-backend:
-    needs: [build-backend]
+    # needs: [build-backend]
     runs-on: ubuntu-latest
 
     steps:
