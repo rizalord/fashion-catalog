@@ -105,7 +105,7 @@ jobs:
             sudo docker container rm -f frontend
             sudo docker rmi ghcr.io/${{ github.repository }}/frontend:latest
             sudo docker pull ghcr.io/${{ github.repository }}/frontend:latest
-            sudo docker run --name frontend -p 1337:1337 --network=nginx_network \
+            sudo docker run --name frontend -p 4173:4173 --network=nginx_network \
               -e APP_KEYS=${{ secrets.APP_KEYS }} \
               -e API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT }} \
               -e ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }} \
