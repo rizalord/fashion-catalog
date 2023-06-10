@@ -74,13 +74,13 @@ jobs:
             sudo docker container rm -f backend || true
             sudo docker rmi ghcr.io/${{ github.repository }}/backend:latest
             sudo docker pull ghcr.io/${{ github.repository }}/backend:latest
-            sudo docker run -d --name backend -p 1337:1337 --network=nginx_network \
+            sudo docker run --name backend -p 1337:1337 --network=nginx_network \
               -e APP_KEYS=${{ secrets.APP_KEYS }} \
               -e API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT }} \
               -e ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }} \
               -e TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT }} \
               -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-              -e DATABASE_CLIENT=postgres
-              -e DATABASE_URL=${{ secrets.DATABASE_URL }}
-              -e DATABASE_SSL=true
-              ghcr.io/${{ github.repository }}/backend:latest
+              -e DATABASE_CLIENT=postgres \
+              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
+              -e DATABASE_SSL=true \
+              -d ghcr.io/${{ github.repository }}/backend:latest
