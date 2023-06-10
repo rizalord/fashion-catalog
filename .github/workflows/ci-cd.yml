@@ -6,55 +6,55 @@ on:
       - main
 
 jobs:
-  build-backend:
-    runs-on: ubuntu-latest
+  # build-backend:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
 
-      - name: Login to Github Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Login to Github Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push backend image
-        shell: bash
-        run: |
-          cd backend
-          docker build -t ghcr.io/${{ github.repository }}/backend:${{ github.sha }} .
-          docker push ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
-          docker tag ghcr.io/${{ github.repository }}/backend:${{ github.sha }} ghcr.io/${{ github.repository }}/backend:latest
-          docker push ghcr.io/${{ github.repository }}/backend:latest
+  #     - name: Build and push backend image
+  #       shell: bash
+  #       run: |
+  #         cd backend
+  #         docker build -t ghcr.io/${{ github.repository }}/backend:${{ github.sha }} .
+  #         docker push ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+  #         docker tag ghcr.io/${{ github.repository }}/backend:${{ github.sha }} ghcr.io/${{ github.repository }}/backend:latest
+  #         docker push ghcr.io/${{ github.repository }}/backend:latest
 
-  build-frontend:
-    runs-on: ubuntu-latest
+  # build-frontend:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
 
-      - name: Login to Github Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Login to Github Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push frontend image
-        shell: bash
-        run: |
-          cd frontend
-          cp .env.example .env
-          chmod +x env.sh 
-          sh env.sh 
-          cp env-config.js ./public/env-config.js
-          docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} .
-          docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
-          docker tag ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} ghcr.io/${{ github.repository }}/frontend:latest
-          docker push ghcr.io/${{ github.repository }}/frontend:latest
+  #     - name: Build and push frontend image
+  #       shell: bash
+  #       run: |
+  #         cd frontend
+  #         cp .env.example .env
+  #         chmod +x env.sh 
+  #         sh env.sh 
+  #         cp env-config.js ./public/env-config.js
+  #         docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} .
+  #         docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
+  #         docker tag ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} ghcr.io/${{ github.repository }}/frontend:latest
+  #         docker push ghcr.io/${{ github.repository }}/frontend:latest
 
   deploy-backend:
     needs: [build-backend]
@@ -71,6 +71,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            sudo docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
             sudo docker container rm -f backend || true
             sudo docker rmi ghcr.io/${{ github.repository }}/backend:latest
             sudo docker pull ghcr.io/${{ github.repository }}/backend:latest
