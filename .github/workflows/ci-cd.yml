@@ -71,7 +71,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker container rm -f backend
+            sudo docker container rm -f backend || true
             sudo docker rmi ghcr.io/${{ github.repository }}/backend:latest
             sudo docker pull ghcr.io/${{ github.repository }}/backend:latest
             sudo docker run -d --name backend -p 1337:1337 --network=nginx_network \
