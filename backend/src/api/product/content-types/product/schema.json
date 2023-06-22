@@ -49,6 +49,16 @@
       "relation": "oneToMany",
       "target": "api::product-link.product-link",
       "mappedBy": "product"
+    },
+    "images": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }
