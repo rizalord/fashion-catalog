@@ -15,16 +15,16 @@
     "link": {
       "type": "string"
     },
-    "product": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::product.product",
-      "inversedBy": "product_links"
-    },
     "e_commerce": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::e-commerce.e-commerce",
+      "inversedBy": "product_links"
+    },
+    "product": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product.product",
       "inversedBy": "product_links"
     }
   }
