@@ -8,7 +8,7 @@ This repository contains a fashion catalog application built with a frontend dev
 
 - **Backend (backend/)**: The backend folder contains the Strapi headless CMS codebase, which serves as the central repository for managing the fashion product data. Strapi offers a flexible and customizable content management system that allows easy creation and management of fashion products, categories, and other relevant data.
 
-## Prerequisites
+## Prerequisites 
 
 Before getting started with this application, make sure you have the following prerequisites installed on your system:
 
