@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_page_features",
+  "info": {
+    "displayName": "Feature"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "header": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    }
+  }
+}
