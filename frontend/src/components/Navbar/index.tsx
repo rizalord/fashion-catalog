@@ -4,6 +4,7 @@ import office from './../../assets/images/icons/office.svg'
 import terrace from './../../assets/images/icons/terrace.svg'
 import bed2 from './../../assets/images/icons/bed-2.svg'
 import restaurant from './../../assets/images/icons/restaurant.svg'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
     return (
@@ -62,10 +63,8 @@ export default function Navbar() {
                     {/* <!-- nav menu --> */}
                     <div className="flex items-center justify-between flex-grow pl-12">
                         <div className="flex items-center space-x-6 text-base capitalize">
-                            <a href="index.html" className="text-gray-200 hover:text-white transition">Home</a>
-                            <a href="shop.html" className="text-gray-200 hover:text-white transition">Shop</a>
-                            <a href="#" className="text-gray-200 hover:text-white transition">About us</a>
-                            <a href="#" className="text-gray-200 hover:text-white transition">Contact us</a>
+                            <Link to="/" className="text-gray-200 hover:text-white transition">Home</Link>
+                            <Link to="/shop" className="text-gray-200 hover:text-white transition">Shop</Link>
                         </div>
                         {/* <a href="login.html" className="ml-auto justify-self-end text-gray-200 hover:text-white transition">
                             Login/Register
