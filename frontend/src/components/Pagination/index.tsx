@@ -16,13 +16,11 @@ export default function Pagination({ page = 1, pageSize, pageCount, total }: Pag
 
     const navigate = useNavigate()
     const urlQuery = new URLSearchParams(window.location.search)
-
-    useEffect(() => {
-    }, [])
-
+    const parsed = qs.parse(urlQuery.toString())
 
     const changePage = (page: number) => {
-        navigate(`?page=${page}`)
+        parsed.page = page.toString()
+        navigate(`?${qs.stringify(parsed)}`)
     }
 
     return (

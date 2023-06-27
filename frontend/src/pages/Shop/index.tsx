@@ -41,7 +41,7 @@ export default function Shop() {
 
                 </div>
 
-                <Pagination page={2} pageSize={10} pageCount={2} total={15}/>
+                <Pagination page={1} pageSize={10} pageCount={2} total={15}/>
 
             </div>
 
