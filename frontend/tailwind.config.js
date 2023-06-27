@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: "media", // or 'media' or 'class'
   theme: {
     screens: {
       sm: "576px",
@@ -29,6 +29,10 @@ export default {
       display: ["group-hover"],
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  // safelist: [
+  //   { pattern: /bg-+/, variants: ["hover"] },
+  //   { pattern: /text-+/, variants: ["hover"] },
+  //   { pattern: /border-+/, variants: ["hover"] },
+  // ],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 }
-

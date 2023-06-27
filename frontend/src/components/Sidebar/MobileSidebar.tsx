@@ -1,6 +1,7 @@
 import { Transition } from '@headlessui/react'
 import { useAppDispatch, useAppSelector } from "../../context/store/hooks"
 import { toggleNav } from "../../context/store/slices/navSlice"
+import { Link } from 'react-router-dom'
 
 export default function MobileSidebar() {
     const isNavOpen = useAppSelector((state) => state.nav.isNavOpen)
@@ -33,30 +34,14 @@ export default function MobileSidebar() {
                         Menu
                     </h3>
                     <div className="">
-                        <a
-                            href="index.html"
+                        <Link
+                            to="/"
                             className="block px-4 py-2 font-medium transition hover:bg-gray-100"
-                        >
-                            Home
-                        </a>
-                        <a
-                            href="shop.html"
+                            onClick={() => dispatch(toggleNav())}>Home </Link>
+                        <Link
+                            to="/shop"
                             className="block px-4 py-2 font-medium transition hover:bg-gray-100"
-                        >
-                            Shop
-                        </a>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 font-medium transition hover:bg-gray-100"
-                        >
-                            About Us
-                        </a>
-                        <a
-                            href="#"
-                            className="block px-4 py-2 font-medium transition hover:bg-gray-100"
-                        >
-                            Contact Us
-                        </a>
+                            onClick={() => dispatch(toggleNav())}>Shop </Link>
                     </div>
                     {/* <!-- navlinks end --> */}
                 </div>
@@ -67,6 +52,6 @@ export default function MobileSidebar() {
                     onClick={() => dispatch(toggleNav())}
                 />
             </div>
-        </Transition>
+        </Transition >
     )
 }
