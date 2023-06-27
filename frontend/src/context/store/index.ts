@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
 import navReducer from "./slices/navSlice"
+import categoryReducer from "./slices/categorySlice"
 
 export const store = configureStore({
     reducer: {
         nav: navReducer,
+        category: categoryReducer,
     },
 })
 
