@@ -56,7 +56,7 @@ export default function Footer() {
                                 <div className="mt-4 space-y-4">
                                     {
                                         !isLoading && data?.map((category) => (
-                                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
+                                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block" key={category.id}>
                                                 {category.attributes.name}
                                             </a>
                                         ))
