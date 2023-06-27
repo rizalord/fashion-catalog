@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../context/store/hooks'
 import { toggleCategory } from '../../context/store/slices/categorySlice'
 import { useQuery } from '@tanstack/react-query'
