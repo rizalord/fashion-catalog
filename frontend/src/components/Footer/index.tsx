@@ -1,6 +1,25 @@
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
+import api from '../../lib/api'
+import { CategoriesResponse } from '../../types/responses/categories_response'
 import logo from './../../assets/images/logo.svg'
 
 export default function Footer() {
+    const { data, isLoading } = useQuery({
+        queryKey: ['footer-category'],
+        queryFn: async () => {
+            try {
+                const response = await api.get<CategoriesResponse>("/api/categories?populate=*&pagination[limit]=4")
+
+                return response.data.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw new Error(error.response?.data.error.message)
+                }
+            }
+        },
+    })
+
     return (
         <footer className="bg-white pt-16 pb-12 border-t border-gray-100">
             <div className="container">
@@ -35,18 +54,24 @@ export default function Footer() {
                                     Category
                                 </h3>
                                 <div className="mt-4 space-y-4">
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
-                                        Clothes
-                                    </a>
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
-                                        Jeans
-                                    </a>
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
-                                        Shoes
-                                    </a>
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
-                                        T-Shirt
-                                    </a>
+                                    {
+                                        !isLoading && data?.map((category) => (
+                                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
+                                                {category.attributes.name}
+                                            </a>
+                                        ))
+                                    }
+
+                                    {
+                                        isLoading && (
+                                            <div className="animate-pulse">
+                                                <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                                                <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                                                <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                                                <div className="h-4 bg-gray-300 rounded mt-2"></div>
+                                            </div>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
