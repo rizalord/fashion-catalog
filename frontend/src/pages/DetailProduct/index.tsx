@@ -6,7 +6,7 @@ import { DetailProductResponse } from '../../types/responses/detail_product_resp
 import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
 import ErrorAlert from '../../components/Alert/ErrorAlert'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function DetailProduct() {
     let { id } = useParams()
@@ -18,7 +18,7 @@ export default function DetailProduct() {
     }
 
     const { data, isLoading, isError, error } = useQuery({
-        queryKey: ['detail-product'],
+        queryKey: ['detail-product', id],
         queryFn: async () => {
             try {
                 const response = await api.get<DetailProductResponse>(`/api/products/${id}?populate[product_links][populate][0]=e_commerce&populate[product_sizes][populate][1]=*&populate[categories][populate][2]=*&populate[images][populate][3]=*`)
