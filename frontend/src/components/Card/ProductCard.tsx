@@ -37,7 +37,7 @@ export default function ProductCard({id, image, name, originalPrice, discount }:
                 
             </div>
 
-            <Link to={'/products/${id}'}
+            <Link to={`/products/${id}`}
                 className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition">
                 Lihat Produk
             </Link>
