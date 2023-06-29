@@ -5,4 +5,10 @@ interface SearchProduct {
     discount: number
     short_description: string
     long_description: string
+    images: SearchImage[]
+}
+
+interface SearchImage {
+    id: number
+    url: string
 }
