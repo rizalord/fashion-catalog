@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import algoliaIndex from '../../lib/algolia'
 import { Link, useNavigate } from 'react-router-dom'
+import qs from 'qs'
 
 export default function DesktopSearchbar() {
     const navigate = useNavigate()
@@ -9,10 +10,12 @@ export default function DesktopSearchbar() {
     const [show, setShow] = useState<boolean>(false)
     const [hits, setHits] = useState<SearchProduct[]>([])
 
+    const queryString = qs.parse(window.location.search, { ignoreQueryPrefix: true })
+
     const onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
         setQuery(event.currentTarget.value)
 
-        if (event.currentTarget.value.length > 0) {
+        if (event.currentTarget.value.length > 0 && event.key !== 'Enter') {
             setShow(true)
             algoliaIndex.search(event.currentTarget.value)
                 .then(({ hits }) => {
@@ -21,7 +24,7 @@ export default function DesktopSearchbar() {
                 })
         }
 
-        if (event.currentTarget.value.length === 0) {
+        if (event.currentTarget.value.length === 0 && event.key !== 'Enter') {
             setHits([])
             setShow(false)
         }
@@ -33,6 +36,18 @@ export default function DesktopSearchbar() {
         navigate(`/products/${id}`)
     }
 
+    const onPressEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+
+        if (event.key === 'Enter' && query.length >= 3) {
+            setHits([])
+            setShow(false)
+
+            queryString.q = query
+            navigate(`/shop?${qs.stringify(queryString)}`)
+        }
+    }
+
+
     return (
         <div className="w-full xl:max-w-xl lg:max-w-lg lg:flex relative hidden">
             <div className="w-full xl:max-w-xl lg:max-w-lg lg:flex relative hidden">
@@ -41,6 +56,7 @@ export default function DesktopSearchbar() {
                 </span>
                 <input type="text"
                     onKeyUp={onKeyUp}
+                    onKeyDown={onPressEnter}
                     className="pl-12 w-full border border-r-0 border-primary py-3 px-3 rounded-l-md focus:ring-primary focus:border-primary"
                     placeholder="search" />
                 <button type="submit"
