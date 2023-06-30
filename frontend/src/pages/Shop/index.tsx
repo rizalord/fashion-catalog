@@ -1,11 +1,28 @@
+import { useQuery } from '@tanstack/react-query'
 import ProductCard from '../../components/Card/ProductCard'
 import Pagination from '../../components/Pagination'
 import FilterSection from '../../components/Section/FilterSection'
-import { useAppDispatch } from '../../context/store/hooks'
-import { toggleCategory } from '../../context/store/slices/categorySlice'
+import api from '../../lib/api'
+import { ProductsResponse } from '../../types/responses/products_response'
+import axios from 'axios'
 
 export default function Shop() {
-    const dispatch = useAppDispatch()
+    const apiUrl = window._env_.API_URL
+
+    const { data, isLoading} = useQuery({
+        queryKey: ['all-products'],
+        queryFn: async () => {
+            try {
+                const response = await api.get<ProductsResponse>(`/api/products?populate=*&pagination[pageSize]=12&pagination[page]=1`)
+
+                return response.data.data
+            } catch (error) {
+                if (axios.isAxiosError(error)) {
+                    throw new Error(error.response?.data.error.message)
+                }
+            }
+        },
+    })
 
     return <>
         {/* Breadcrumb */}
@@ -28,16 +45,19 @@ export default function Shop() {
 
 
                 <div className="grid lg:grid-cols-2 xl:grid-cols-3 sm:grid-cols-2 gap-6 mb-10">
-
-                    <ProductCard />
-
-                    <ProductCard />
-
-                    <ProductCard />
-
-                    <ProductCard />
-
-                    <ProductCard />
+                
+                    {
+                        data?.map((product) => (
+                            <ProductCard 
+                                key={product.id} 
+                                id={product.id}
+                                image={'${apiUrl}${product.attributes.images.data[0].attributes.url}'}
+                                name={product.attributes.title}
+                                originalPrice={product.attributes.original_price}
+                                discount={product.attributes.discount}
+                            />
+                        ))
+                    }
 
                 </div>
 
