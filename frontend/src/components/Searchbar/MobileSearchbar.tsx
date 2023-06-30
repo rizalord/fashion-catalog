@@ -45,12 +45,10 @@ export default function MobileSearchbar() {
     }
 
     const onPressEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter' && query.length >= 3) onSubmit()
+        if (event.key === 'Enter') onSubmit()
     }
 
     const onSubmit = () => {
-        if (query.length < 3) return
-        
         setHits([])
         setShow(false)
         dispatch(toggleSearch())

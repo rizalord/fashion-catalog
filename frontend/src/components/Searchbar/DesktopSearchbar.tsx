@@ -37,12 +37,10 @@ export default function DesktopSearchbar() {
     }
 
     const onPressEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter' && query.length >= 3) onSubmit()
+        if (event.key === 'Enter') onSubmit()
     }
 
     const onSubmit = () => {
-        if (query.length < 3) return
-
         setHits([])
         setShow(false)
 
@@ -63,9 +61,7 @@ export default function DesktopSearchbar() {
                     placeholder="search" />
                 <button type="submit"
                     onClick={onSubmit}
-                    disabled={query.length < 3}
-                    className={`bg-primary border border-primary text-white px-8 font-medium rounded-r-md hover:bg-transparent hover:text-primary transition  ${query.length < 3 ? 'cursor-not-allowed' : 'cursor-pointer'}
-                    `}>
+                    className={`bg-primary border border-primary text-white px-8 font-medium rounded-r-md hover:bg-transparent hover:text-primary transition`}>
                     Search
                 </button>
             </div>

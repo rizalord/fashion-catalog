@@ -5,17 +5,42 @@ import FilterSection from '../../components/Section/FilterSection'
 import api from '../../lib/api'
 import { ProductsResponse } from '../../types/responses/products_response'
 import axios from 'axios'
+import qs from 'qs'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
+import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
 
 export default function Shop() {
     const apiUrl = window._env_.API_URL
 
-    const { data, isLoading} = useQuery({
-        queryKey: ['all-products'],
+    let location = useLocation()
+    const [queryString, setQueryString] = useState<qs.ParsedQs>({})
+
+    useEffect(() => {
+        setQueryString(qs.parse(window.location.search, { ignoreQueryPrefix: true }))
+    }, [location])
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['all-products', queryString],
         queryFn: async () => {
             try {
-                const response = await api.get<ProductsResponse>(`/api/products?populate=*&pagination[pageSize]=12&pagination[page]=1`)
 
-                return response.data.data
+                const query = qs.stringify({
+                    populate: '*',
+                    pagination: {
+                        pageSize: 2,
+                        page: queryString.page || 1
+                    },
+                    filters: {
+                        title: {
+                            $containsi: queryString.q
+                        }
+                    }
+                })
+
+                const response = await api.get<ProductsResponse>(`/api/products?${query}`)
+
+                return response.data
             } catch (error) {
                 if (axios.isAxiosError(error)) {
                     throw new Error(error.response?.data.error.message)
@@ -43,25 +68,35 @@ export default function Shop() {
 
             <div className="col-span-3">
 
+                {
+                    isLoading
+                        ? <LoadingPageSpinner />
+                        : <div className="grid lg:grid-cols-2 xl:grid-cols-3 sm:grid-cols-2 gap-6 mb-10">
 
-                <div className="grid lg:grid-cols-2 xl:grid-cols-3 sm:grid-cols-2 gap-6 mb-10">
-                
-                    {
-                        data?.map((product) => (
-                            <ProductCard 
-                                key={product.id} 
-                                id={product.id}
-                                image={'${apiUrl}${product.attributes.images.data[0].attributes.url}'}
-                                name={product.attributes.title}
-                                originalPrice={product.attributes.original_price}
-                                discount={product.attributes.discount}
-                            />
-                        ))
-                    }
+                            {
+                                data?.data?.map((product) => (
+                                    <ProductCard
+                                        key={product.id}
+                                        id={product.id}
+                                        image={`${apiUrl}${product.attributes.images.data[0].attributes.url}`}
+                                        name={product.attributes.title}
+                                        originalPrice={product.attributes.original_price}
+                                        discount={product.attributes.discount}
+                                    />
+                                ))
+                            }
 
-                </div>
+                        </div>
+                }
 
-                <Pagination page={1} pageSize={10} pageCount={2} total={15}/>
+                {
+                    !isLoading && <Pagination 
+                        page={data?.meta.pagination.page || 1} 
+                        pageSize={data?.meta.pagination.pageSize || 1} 
+                        pageCount={data?.meta.pagination.pageCount || 1} 
+                        total={data?.meta.pagination.total || 1}
+                    />
+                }
 
             </div>
 

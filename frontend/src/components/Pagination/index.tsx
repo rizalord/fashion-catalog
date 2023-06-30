@@ -15,8 +15,7 @@ export default function Pagination({ page = 1, pageSize, pageCount, total }: Pag
     const to = page * pageSize > total ? total : page * pageSize
 
     const navigate = useNavigate()
-    const urlQuery = new URLSearchParams(window.location.search)
-    const parsed = qs.parse(urlQuery.toString())
+    const parsed = qs.parse(window.location.search, { ignoreQueryPrefix: true })
 
     const changePage = (page: number) => {
         parsed.page = page.toString()
