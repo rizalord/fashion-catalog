@@ -6,7 +6,7 @@ import { DetailProductResponse } from '../../types/responses/detail_product_resp
 import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
 import ErrorAlert from '../../components/Alert/ErrorAlert'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function DetailProduct() {
     let { id } = useParams()

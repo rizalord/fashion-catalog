@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import api from '../../lib/api'
@@ -7,7 +7,6 @@ import qs from 'qs'
 
 export default function Navbar() {
     const apiUrl = window._env_.API_URL
-    const navigate = useNavigate()
 
     const { data } = useQuery({
         queryKey: ['all-category'],

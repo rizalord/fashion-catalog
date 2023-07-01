@@ -1,5 +1,4 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import qs from 'qs'
 
