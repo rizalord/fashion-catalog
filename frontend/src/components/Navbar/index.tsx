@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import api from '../../lib/api'
 import { CategoriesResponse } from '../../types/responses/categories_response'
+import qs from 'qs'
 
 export default function Navbar() {
     const apiUrl = window._env_.API_URL
+    const navigate = useNavigate()
 
     const { data } = useQuery({
         queryKey: ['all-category'],
@@ -22,6 +24,20 @@ export default function Navbar() {
         },
     })
 
+    const getCategoryNavigationUrl = (id: number) => {
+        const query = qs.stringify({
+            filters: {
+                categories: {
+                    id: {
+                        $in: [id]
+                    }
+                }
+            }
+        })
+
+        return `/shop?${query}`
+    }
+
     return (
         <nav className="bg-gray-800 hidden lg:block">
             <div className="container">
@@ -37,12 +53,12 @@ export default function Navbar() {
                         <div className="absolute left-0 top-full w-full bg-white shadow-md py-3 invisible opacity-0 group-hover:opacity-100 group-hover:visible transition duration-300 z-50 divide-y divide-gray-300 divide-dashed">
                             {
                                 data?.map((category) => (
-                                    <a href="#" className="px-6 py-3 flex items-center hover:bg-gray-100 transition" key={category.id}>
+                                    <Link to={getCategoryNavigationUrl(category.id)} className="px-6 py-3 flex items-center hover:bg-gray-100 transition" key={category.id}>
                                         <img src={apiUrl + category.attributes.icon.data.attributes.url} className="w-5 h-5 object-contain" />
                                         <span className="ml-6 text-gray-600 text-sm">
                                             {category.attributes.name}
                                         </span>
-                                    </a>
+                                    </Link>
                                 ))
                             }
                         </div>

@@ -4,6 +4,7 @@ declare global {
             API_URL: string
             ALGOLIA_APP_ID: string
             ALGOLIA_SEARCH_KEY: string
+            ALGOLIA_INDEX: string
         }
     }
 }

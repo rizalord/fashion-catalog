@@ -1,14 +1,45 @@
 import { useAppDispatch, useAppSelector } from '../../context/store/hooks'
-import { toggleCategory } from '../../context/store/slices/categorySlice'
+import { setCategory, toggleCategory } from '../../context/store/slices/categorySlice'
 import { useQuery } from '@tanstack/react-query'
 import api from '../../lib/api'
 import { CategoriesResponse } from '../../types/responses/categories_response'
 import axios from 'axios'
 import { ProductSizesResponse } from '../../types/responses/product_sizes_response'
+import { useEffect, useState } from 'react'
+import qs from 'qs'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function FilterSection() {
     const isCategoryOpen = useAppSelector((state) => state.category.isCategoryOpen)
     const dispatch = useAppDispatch()
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+    const [selectedSize, setSelectedSize] = useState<string>('')
+    const [minPrice, setMinPrice] = useState<string>("")
+    const [maxPrice, setMaxPrice] = useState<string>("")
+    const navigate = useNavigate()
+    let location = useLocation()
+
+    useEffect(() => {
+        const currentQuery = qs.parse(window.location.search, { ignoreQueryPrefix: true }) as any
+
+        if (currentQuery.filters) {
+            const filters = currentQuery.filters
+
+            if (filters.categories) {
+                setSelectedCategories(filters.categories.id.$in)
+            }
+
+            if (filters.product_sizes) {
+                setSelectedSize(filters.product_sizes.id.$eq)
+            }
+
+            if (filters.original_price) {
+                setMinPrice(filters.original_price.$gte)
+                setMaxPrice(filters.original_price.$lte)
+            }
+        }
+    }, [location])
+
 
     const categoryQuery = useQuery({
         queryKey: ['all-category'],
@@ -40,11 +71,58 @@ export default function FilterSection() {
         },
     })
 
+    const toggleSelectCategory = (id: number) => {
+        if (selectedCategories.includes(id.toString())) {
+            setSelectedCategories(selectedCategories.filter((item) => item !== id.toString()))
+        } else {
+            setSelectedCategories([...selectedCategories, id.toString()])
+        }
+    }
+
+    const toggleSelectSize = (id: number) => {
+        if (selectedSize === id.toString()) {
+            setSelectedSize("")
+        } else {
+            setSelectedSize(id.toString())
+        }
+    }
+
+    const applyFilter = () => {
+        const currentQuery = qs.parse(window.location.search, { ignoreQueryPrefix: true })
+
+        const query = qs.stringify({
+            q: currentQuery.q || "",
+            page: 1,
+            filters: {
+                categories: {
+                    id: {
+                        $in: selectedCategories
+                    }
+                },
+                product_sizes: {
+                    id: {
+                        $eq: selectedSize === "" ? undefined : selectedSize
+                    }
+                },
+                original_price: {
+                    $gte: isNaN(parseInt(minPrice)) ? undefined : parseInt(minPrice),
+                    $lte: isNaN(parseInt(maxPrice)) ? undefined : parseInt(maxPrice)
+                }
+            }
+        })
+
+        dispatch(setCategory(false))
+
+        navigate(`/shop?${query}`)
+    }
+
+
     return (
         <div
             className={`col-span-1 bg-white px-4 pt-4 pb-6 shadow rounded overflow-hidden absolute lg:static left-4 top-16 z-10 w-72 lg:w-full ${isCategoryOpen ? 'block' : 'hidden'} lg:block`}>
             <div className="divide-gray-200 divide-y space-y-5 relative">
 
+                {/* Category */}
                 <div className="relative">
                     <div
                         className="lg:hidden text-gray-400 hover:text-primary text-lg absolute right-0 top-0 cursor-pointer"
@@ -68,6 +146,8 @@ export default function FilterSection() {
                                     categoryQuery.data?.map((item) => (
                                         <div className="flex items-center" key={item.id}>
                                             <input type="checkbox" id={item.id.toString()}
+                                                checked={selectedCategories.includes(item.id.toString())}
+                                                onChange={() => toggleSelectCategory(item.id)}
                                                 className="text-primary focus:ring-0 rounded-sm cursor-pointer" />
                                             <label htmlFor={item.id.toString()} className="text-gray-600 ml-3 cursor-pointer">
                                                 {item.attributes.name}
@@ -81,20 +161,32 @@ export default function FilterSection() {
                     }
 
                 </div>
+                {/* Category */}
 
+                {/* Price */}
                 <div className="pt-4">
                     <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Price</h3>
                     <div className="mt-4 flex items-center">
                         <input type="text"
                             className="w-full border-gray-300 focus:ring-0 focus:border-primary px-3 py-1 text-gray-600 text-sm shadow-sm rounded"
-                            placeholder="min" />
+                            placeholder="min"
+                            pattern="[0-9]*"
+                            onChange={(e) => setMinPrice(e.target.value.replace(/\D/, ''))}
+                            value={minPrice}
+                        />
                         <span className="mx-3 text-gray-500">-</span>
                         <input type="text"
                             className="w-full border-gray-300 focus:ring-0 focus:border-primary px-3 py-1 text-gray-600 text-sm shadow-sm rounded"
-                            placeholder="mix" />
+                            placeholder="max"
+                            pattern="[0-9]*"
+                            onChange={(e) => setMaxPrice(e.target.value.replace(/\D/, ''))}
+                            value={maxPrice}
+                        />
                     </div>
                 </div>
+                {/* Price */}
 
+                {/* Sizes */}
                 <div className="pt-4">
                     <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">size</h3>
                     {
@@ -111,8 +203,16 @@ export default function FilterSection() {
                                 {
                                     productSizesQuery.data?.map((item) => (
                                         <div className="size-selector" key={item.id}>
-                                            <input type="radio" name="size" className="hidden" id={item.id.toString()} />
-                                            <label htmlFor="size-xs"
+                                            <input
+                                                type="radio"
+                                                name={`sizes`}
+                                                className="hidden"
+                                                id={`size-${item.id}`}
+                                                checked={selectedSize === item.id.toString()}
+                                                readOnly
+                                                onClick={() => toggleSelectSize(item.id)}
+                                            />
+                                            <label htmlFor={`size-${item.id}`}
                                                 className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
                                                 {item.attributes.name}
                                             </label>
@@ -124,7 +224,16 @@ export default function FilterSection() {
                         )
 
                     }
+                </div>
+                {/* Sizes */}
 
+                <div className="mt-4">
+                    <button
+                        className="w-full bg-primary text-white py-2 rounded-md"
+                        onClick={applyFilter}
+                    >
+                        Apply
+                    </button>
                 </div>
             </div>
         </div>

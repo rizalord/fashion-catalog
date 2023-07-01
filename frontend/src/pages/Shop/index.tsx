@@ -9,12 +9,16 @@ import qs from 'qs'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router'
 import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
+import { Link } from 'react-router-dom'
+import { useAppDispatch } from '../../context/store/hooks'
+import { toggleCategory } from '../../context/store/slices/categorySlice'
 
 export default function Shop() {
     const apiUrl = window._env_.API_URL
 
     let location = useLocation()
-    const [queryString, setQueryString] = useState<qs.ParsedQs>({})
+    const dispatch = useAppDispatch()
+    const [queryString, setQueryString] = useState<any>({})
 
     useEffect(() => {
         setQueryString(qs.parse(window.location.search, { ignoreQueryPrefix: true }))
@@ -24,18 +28,20 @@ export default function Shop() {
         queryKey: ['all-products', queryString],
         queryFn: async () => {
             try {
+                const filters: any = {
+                    title: {
+                        $containsi: queryString.q
+                    },
+                    ...queryString.filters
+                }
 
                 const query = qs.stringify({
                     populate: '*',
                     pagination: {
-                        pageSize: 2,
+                        pageSize: 12,
                         page: queryString.page || 1
                     },
-                    filters: {
-                        title: {
-                            $containsi: queryString.q
-                        }
-                    }
+                    filters
                 })
 
                 const response = await api.get<ProductsResponse>(`/api/products?${query}`)
@@ -53,11 +59,11 @@ export default function Shop() {
         {/* Breadcrumb */}
         <div className="container py-4 flex justify-between">
             <div className="flex gap-3 items-center">
-                <a href="index.html" className="text-primary text-base">
+                <Link to="/" className="text-primary text-base">
                     <i className="fas fa-home"></i>
-                </a>
+                </Link>
                 <span className="text-sm text-gray-400"><i className="fas fa-chevron-right"></i></span>
-                <p className="text-gray-600 font-medium">Shop</p>
+                <p className="text-gray-600 font-medium uppercase">Shop</p>
             </div>
         </div>
         {/* Breadcrumb */}
@@ -67,6 +73,14 @@ export default function Shop() {
             <FilterSection />
 
             <div className="col-span-3">
+                <div className="mb-4 flex items-center">
+                    <button
+                        className="bg-primary border border-primary text-white px-10 py-3 font-medium rounded uppercase hover:bg-transparent hover:text-primary transition lg:hidden text-sm mr-3 focus:outline-none"
+                        onClick={() => dispatch(toggleCategory())}
+                    >
+                        Filter
+                    </button>
+                </div>
 
                 {
                     isLoading
@@ -90,16 +104,23 @@ export default function Shop() {
                 }
 
                 {
-                    !isLoading && <Pagination 
-                        page={data?.meta.pagination.page || 1} 
-                        pageSize={data?.meta.pagination.pageSize || 1} 
-                        pageCount={data?.meta.pagination.pageCount || 1} 
-                        total={data?.meta.pagination.total || 1}
+                    !isLoading && data && data.meta.pagination.total === 0 &&
+                    <div className="flex justify-center items-center h-36">
+                        <p className="text-gray-500 text-2xl">No products found</p>
+                    </div>
+                }
+
+                {
+                    !isLoading && data && data.meta.pagination.total > 0 && <Pagination
+                        page={data.meta.pagination.page || 0}
+                        pageSize={data.meta.pagination.pageSize || 0}
+                        pageCount={data.meta.pagination.pageCount || 0}
+                        total={data.meta.pagination.total || 0}
                     />
                 }
 
             </div>
 
-        </div>
+        </div >
     </>
 }

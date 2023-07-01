@@ -14,12 +14,15 @@ export default function ProductCard({ id, image, name, originalPrice, discount }
     return (
         <div className="group rounded bg-white shadow overflow-hidden">
 
-            <div className="relative">
-                <img src={image} className="w-full aspect-[4/3]" />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
+            <Link to={`/products/${id}`}>
+                <div className="relative cursor-pointer">
+                    <img src={image} className="w-full aspect-[4/3]" />
+                    <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
 
+                    </div>
                 </div>
-            </div>
+            </Link>
+
 
             <div className="pt-4 pb-3 px-4">
                 <a href="view.html">
@@ -31,9 +34,14 @@ export default function ProductCard({ id, image, name, originalPrice, discount }
                     <p className="text-xl text-primary font-roboto font-semibold">
                         {discountedPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
                     </p>
-                    <p className="text-sm text-gray-400 font-roboto line-through">
-                        {originalPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
-                    </p>
+                    {
+                        discount !== 0 && (
+                            <p className="text-sm text-gray-400 font-roboto line-through">
+                                {originalPrice.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
+                            </p>
+                        )
+                    }
+
                 </div>
 
             </div>
@@ -43,6 +51,6 @@ export default function ProductCard({ id, image, name, originalPrice, discount }
                 Lihat Produk
             </Link>
 
-        </div>
+        </div >
     )
 }
