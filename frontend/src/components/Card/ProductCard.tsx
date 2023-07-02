@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom"
 
 interface ProductCardProps{
-    id : number
-    image : string
-    name : string
-    originalPrice : number
-    discount : number 
+    id: number
+    name: string
+    image: string
+    originalPrice: number
+    discount: number
 }
 
 export default function ProductCard({id, image, name, originalPrice, discount }: ProductCardProps) {
@@ -15,8 +15,8 @@ export default function ProductCard({id, image, name, originalPrice, discount }:
 
             <div className="relative">
                 <img src={image} className="w-full aspect-[4/3]" />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
-                    
+                <div 
+                    className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
                 </div>
             </div>
 
