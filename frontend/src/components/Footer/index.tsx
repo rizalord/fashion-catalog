@@ -3,6 +3,7 @@ import axios from 'axios'
 import api from '../../lib/api'
 import { CategoriesResponse } from '../../types/responses/categories_response'
 import logo from './../../assets/images/logo.svg'
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
     const { data, isLoading } = useQuery({
@@ -81,12 +82,9 @@ export default function Footer() {
                                     Company
                                 </h3>
                                 <div className="mt-4 space-y-4">
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
+                                    <Link to="about" className="text-base text-gray-500 hover:text-gray-900 block">
                                         About
-                                    </a>
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
-                                        Blog
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
