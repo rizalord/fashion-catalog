@@ -131,21 +131,26 @@ export default function DetailProduct() {
                     <p className="mt-4 text-gray-600">
                         {data?.attributes.short_description}
                     </p>
-                    <div className="mt-4">
-                        <h3 className="text-base text-gray-800 mb-1">Size</h3>
-                        <div className="flex items-center gap-2">
-                            {
-                                data?.attributes?.product_sizes?.data?.map((size) => (
-                                    <div className="size-selector" key={size.id}>
-                                        <p
-                                            className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
-                                            {size.attributes.name}
-                                        </p>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    </div>
+                    {
+                        data?.attributes.product_sizes?.data?.length! > 0 && (
+                            <div className="mt-4">
+                                <h3 className="text-base text-gray-800 mb-1">Size</h3>
+                                <div className="flex items-center gap-2">
+                                    {
+                                        data?.attributes?.product_sizes?.data?.map((size) => (
+                                            <div className="size-selector" key={size.id}>
+                                                <p
+                                                    className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
+                                                    {size.attributes.name}
+                                                </p>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                        )
+                    }
+
 
                     <div className="flex gap-3 border-b border-gray-200 pb-5 mt-6">
                         {
