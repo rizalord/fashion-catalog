@@ -36,7 +36,7 @@ export default function Home() {
         <div
             className="bg-cover bg-no-repeat bg-center py-36 relative"
             style={{
-                backgroundImage: `url(${apiUrl}${data?.attributes.banner.image.data.attributes.url})`
+                backgroundImage: `url(${apiUrl}${data?.attributes.banner.image.data.attributes.formats.large.url})`
             }}
         >
             <div className="container">
