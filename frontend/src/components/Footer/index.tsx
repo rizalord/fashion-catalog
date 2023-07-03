@@ -4,6 +4,7 @@ import api from '../../lib/api'
 import { CategoriesResponse } from '../../types/responses/categories_response'
 import logo from './../../assets/images/logo.svg'
 import { Link } from 'react-router-dom'
+import qs from 'qs'
 
 export default function Footer() {
     const { data, isLoading } = useQuery({
@@ -20,6 +21,20 @@ export default function Footer() {
             }
         },
     })
+
+    const getCategoryNavigationUrl = (id: number) => {
+        const query = qs.stringify({
+            filters: {
+                categories: {
+                    id: {
+                        $in: [id]
+                    }
+                }
+            }
+        })
+
+        return `/shop?${query}`
+    }
 
     return (
         <footer className="bg-white pt-16 pb-12 border-t border-gray-100">
@@ -57,9 +72,9 @@ export default function Footer() {
                                 <div className="mt-4 space-y-4">
                                     {
                                         !isLoading && data?.map((category) => (
-                                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block" key={category.id}>
+                                            <Link to={getCategoryNavigationUrl(category.id)} className="text-base text-gray-500 hover:text-gray-900 block" key={category.id}>
                                                 {category.attributes.name}
-                                            </a>
+                                            </Link>
                                         ))
                                     }
 
