@@ -49,6 +49,7 @@ jobs:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_PROVIDER_APPLICATION_ID }}
           ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_PROVIDER_SEARCH_KEY }}
           ALGOLIA_INDEX: ${{ secrets.ALGOLIA_INDEX }}
+          SHOP_TITLE: ${{ secrets.SHOP_TITLE }}
         shell: bash
         run: |
           cd frontend

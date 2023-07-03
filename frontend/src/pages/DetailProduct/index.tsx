@@ -12,6 +12,7 @@ export default function DetailProduct() {
     let { id } = useParams()
     const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0)
     const apiUrl = window._env_.API_URL
+    const shopTitle = window._env_.SHOP_TITLE
 
     const getDiscount = (price: number, discount: number) => {
         return price - (price * discount / 100)
@@ -22,6 +23,8 @@ export default function DetailProduct() {
         queryFn: async () => {
             try {
                 const response = await api.get<DetailProductResponse>(`/api/products/${id}?populate[product_links][populate][0]=e_commerce&populate[product_sizes][populate][1]=*&populate[categories][populate][2]=*&populate[images][populate][3]=*`)
+
+                document.title = `${response.data.data.attributes.title} | ${shopTitle}`
 
                 return response.data.data
             } catch (error) {
