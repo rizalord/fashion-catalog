@@ -38,7 +38,7 @@ export default function Shop() {
                 const query = qs.stringify({
                     populate: '*',
                     pagination: {
-                        pageSize: 12,
+                        pageSize: 9,
                         page: queryString.page || 1
                     },
                     filters
