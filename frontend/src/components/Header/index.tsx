@@ -24,8 +24,8 @@ export default function Header() {
                 {/* <!-- navicons end --> */}
 
                 {/* <!-- logo --> */}
-                <a href="#" className="block w-32">
-                    <img src={logo} alt="logo" className="w-full" />
+                <a href="#" className="block w-32 h-8 md:h-12">
+                    <img src={logo} alt="logo" className="w-full h-full" />
                 </a>
                 {/* <!-- logo end --> */}
 
