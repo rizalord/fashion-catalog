@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import api from '../../lib/api'
 import { DetailProductResponse } from '../../types/responses/detail_product_response'
 import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
 import ErrorAlert from '../../components/Alert/ErrorAlert'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function DetailProduct() {
     let { id } = useParams()
@@ -45,13 +45,13 @@ export default function DetailProduct() {
         <div>
             {/* Breadcrumb */}
             <div className="py-4 container flex gap-3 items-center">
-                <a href="index.html" className="text-primary text-base">
+                <Link to="/" className="text-primary text-base">
                     <i className="fas fa-home"></i>
-                </a>
+                </Link>
                 <span className="text-sm text-gray-400"><i className="fas fa-chevron-right"></i></span>
-                <a href="shop.html" className="text-primary text-base font-medium uppercase">
+                <Link to="/shop" className="text-primary text-base font-medium uppercase">
                     Shop
-                </a>
+                </Link>
                 <span className="text-sm text-gray-400"><i className="fas fa-chevron-right"></i></span>
                 <p className="text-gray-600 font-medium uppercase">
                     {data?.attributes.title}
@@ -102,25 +102,32 @@ export default function DetailProduct() {
                         </p>
                     </div>
 
-                    <div className="mt-4 flex items-baseline gap-3">
-                        {
-                            data?.attributes.discount && data?.attributes.discount > 0 && data?.attributes.original_price && (
+                    {
+                        data?.attributes.original_price && data?.attributes.discount && (
+                            <div className="mt-4 flex items-baseline gap-3">
+
                                 <span className="text-primary font-semibold text-xl">
-                                    {getDiscount(data?.attributes.original_price, data?.attributes.discount).toLocaleString("id-ID", {
+                                    {getDiscount(data.attributes.original_price, data.attributes.discount).toLocaleString("id-ID", {
                                         style: "currency",
                                         currency: "IDR",
                                     })}
                                 </span>
-                            )
-                        }
 
-                        <span className="text-gray-500 text-base line-through">
-                            {data?.attributes.original_price.toLocaleString("id-ID", {
-                                style: "currency",
-                                currency: "IDR",
-                            })}
-                        </span>
-                    </div>
+                                {
+                                    data.attributes.discount > 0 && (
+                                        <span className="text-gray-500 text-base line-through">
+                                            {data?.attributes.original_price.toLocaleString("id-ID", {
+                                                style: "currency",
+                                                currency: "IDR",
+                                            })}
+                                        </span>
+                                    )
+                                }
+                            </div>
+                        )
+                    }
+
+
                     <p className="mt-4 text-gray-600">
                         {data?.attributes.short_description}
                     </p>

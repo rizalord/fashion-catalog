@@ -15,9 +15,12 @@ const categorySlice = createSlice({
         toggleCategory: (state) => {
             state.isCategoryOpen = !state.isCategoryOpen
         },
+        setCategory: (state, action) => {
+            state.isCategoryOpen = action.payload
+        }
     }
 })
 
-export const { toggleCategory } = categorySlice.actions
+export const { toggleCategory, setCategory } = categorySlice.actions
 
 export default categorySlice.reducer
