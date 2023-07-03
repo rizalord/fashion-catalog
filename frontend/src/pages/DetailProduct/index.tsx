@@ -103,7 +103,7 @@ export default function DetailProduct() {
                     </div>
 
                     {
-                        data?.attributes.original_price && data?.attributes.discount && (
+                        data && (
                             <div className="mt-4 flex items-baseline gap-3">
 
                                 <span className="text-primary font-semibold text-xl">
@@ -116,7 +116,7 @@ export default function DetailProduct() {
                                 {
                                     data.attributes.discount > 0 && (
                                         <span className="text-gray-500 text-base line-through">
-                                            {data?.attributes.original_price.toLocaleString("id-ID", {
+                                            {data.attributes.original_price.toLocaleString("id-ID", {
                                                 style: "currency",
                                                 currency: "IDR",
                                             })}
