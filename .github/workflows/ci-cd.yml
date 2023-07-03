@@ -84,6 +84,8 @@ jobs:
   #             -e DATABASE_CLIENT=postgres \
   #             -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
   #             -e DATABASE_SSL=true \
+  #             -e ALGOLIA_PROVIDER_APPLICATION_ID=${{ secrets.ALGOLIA_PROVIDER_APPLICATION_ID }} \
+  #             -e ALGOLIA_PROVIDER_ADMIN_API_KEY=${{ secrets.ALGOLIA_PROVIDER_ADMIN_API_KEY }} \
   #             -d ghcr.io/${{ github.repository }}/backend:latest
     
   deploy-frontend:
@@ -106,12 +108,8 @@ jobs:
             sudo docker rmi ghcr.io/${{ github.repository }}/frontend:latest
             sudo docker pull ghcr.io/${{ github.repository }}/frontend:latest
             sudo docker run --name frontend -p 4173:4173 --network=nginx_network \
-              -e APP_KEYS=${{ secrets.APP_KEYS }} \
-              -e API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT }} \
-              -e ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }} \
-              -e TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT }} \
-              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
-              -e DATABASE_CLIENT=postgres \
-              -e DATABASE_URL=${{ secrets.DATABASE_URL }} \
-              -e DATABASE_SSL=true \
+              -e API_URL=${{ secrets.API_URL }} \
+              -e ALGOLIA_APP_ID=${{ secrets.ALGOLIA_PROVIDER_APPLICATION_ID }} \
+              -e ALGOLIA_SEARCH_KEY=${{ secrets.ALGOLIA_PROVIDER_SEARCH_KEY }} \
+              -e ALGOLIA_INDEX=${{ secrets.ALGOLIA_INDEX }} \
               -d ghcr.io/${{ github.repository }}/frontend:latest
