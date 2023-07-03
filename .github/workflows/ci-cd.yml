@@ -54,6 +54,7 @@ jobs:
           cd frontend
           cp .env.example .env
           chmod +x env.sh 
+          chmod +x env-prod.sh 
           sh env-prod.sh 
           docker build -t ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} .
           docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
