@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useAppDispatch } from '../../context/store/hooks'
 import { toggleNav, toggleSearch } from '../../context/store/slices/navSlice'
 import DesktopSearchbar from '../Searchbar/DesktopSearchbar'
@@ -24,9 +25,9 @@ export default function Header() {
                 {/* <!-- navicons end --> */}
 
                 {/* <!-- logo --> */}
-                <a href="#" className="block w-32 h-8 md:h-12">
+                <Link to="/" className="block w-32 h-8 md:h-12">
                     <img src={logo} alt="logo" className="w-full h-full" />
-                </a>
+                </Link>
                 {/* <!-- logo end --> */}
 
                 {/* <!-- searchbar --> */}
