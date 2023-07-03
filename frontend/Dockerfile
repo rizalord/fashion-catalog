@@ -17,7 +17,7 @@ COPY --from=pruner /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/.env ./.env
 COPY --from=builder /app/.env.prod ./.env.prod
-COPY ./package.json ./yarn.lock ./tailwind-config.js ./
+COPY ./package.json ./yarn.lock ./tailwind.config.js ./
 COPY ./tsconfig.json ./tsconfig.node.json ./vite.config.ts ./
 
 EXPOSE 4173
