@@ -15,7 +15,7 @@ export default {
     },
     extend: {
       colors: {
-        primary: "#FD3D57",
+        primary: "#8A3417",
       },
       fontFamily: {
         poppins: "'Poppins', sans-serif",
@@ -29,10 +29,10 @@ export default {
       display: ["group-hover"],
     },
   },
-  // safelist: [
-  //   { pattern: /bg-+/, variants: ["hover"] },
-  //   { pattern: /text-+/, variants: ["hover"] },
-  //   { pattern: /border-+/, variants: ["hover"] },
-  // ],
+  safelist: [
+    { pattern: /bg-+/, variants: ["hover"] },
+    { pattern: /text-+/, variants: ["hover"] },
+    { pattern: /border-+/, variants: ["hover"] },
+  ],
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 }

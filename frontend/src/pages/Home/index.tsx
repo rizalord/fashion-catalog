@@ -7,9 +7,15 @@ import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
 import FeatureCard from '../../components/Card/FeatureCard'
 import CategoryCard from '../../components/Card/CategoryCard'
 import parse from 'html-react-parser'
+import { useEffect } from 'react'
 
 export default function Home() {
     const apiUrl = window._env_.API_URL
+    const shopTitle = window._env_.SHOP_TITLE
+
+    useEffect(() => {
+        document.title = shopTitle
+    }, [])
 
     const { data, isLoading } = useQuery({
         queryKey: ['home'],
@@ -36,7 +42,7 @@ export default function Home() {
         <div
             className="bg-cover bg-no-repeat bg-center py-36 relative"
             style={{
-                backgroundImage: `url(${apiUrl}${data?.attributes.banner.image.data.attributes.url})`
+                backgroundImage: `url(${apiUrl}${data?.attributes.banner.image.data.attributes.formats.large.url})`
             }}
         >
             <div className="container">

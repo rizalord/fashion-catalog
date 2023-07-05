@@ -15,10 +15,15 @@ import { toggleCategory } from '../../context/store/slices/categorySlice'
 
 export default function Shop() {
     const apiUrl = window._env_.API_URL
+    const shopTitle = window._env_.SHOP_TITLE
 
     let location = useLocation()
     const dispatch = useAppDispatch()
     const [queryString, setQueryString] = useState<any>({})
+
+    useEffect(() => {
+        document.title = "Shop | " + shopTitle
+    }, [])
 
     useEffect(() => {
         setQueryString(qs.parse(window.location.search, { ignoreQueryPrefix: true }))
@@ -38,7 +43,7 @@ export default function Shop() {
                 const query = qs.stringify({
                     populate: '*',
                     pagination: {
-                        pageSize: 12,
+                        pageSize: 9,
                         page: queryString.page || 1
                     },
                     filters

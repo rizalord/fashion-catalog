@@ -26,7 +26,7 @@ export default function ProductCard({ id, image, name, originalPrice, discount }
 
             <div className="pt-4 pb-3 px-4">
                 <a href="view.html">
-                    <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition">
+                    <h4 className="uppercase font-medium text-xl mb-2 text-gray-800 hover:text-primary transition truncate">
                         {name}
                     </h4>
                 </a>

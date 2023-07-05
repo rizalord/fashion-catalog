@@ -12,6 +12,7 @@ export default function DetailProduct() {
     let { id } = useParams()
     const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0)
     const apiUrl = window._env_.API_URL
+    const shopTitle = window._env_.SHOP_TITLE
 
     const getDiscount = (price: number, discount: number) => {
         return price - (price * discount / 100)
@@ -22,6 +23,8 @@ export default function DetailProduct() {
         queryFn: async () => {
             try {
                 const response = await api.get<DetailProductResponse>(`/api/products/${id}?populate[product_links][populate][0]=e_commerce&populate[product_sizes][populate][1]=*&populate[categories][populate][2]=*&populate[images][populate][3]=*`)
+
+                document.title = `${response.data.data.attributes.title} | ${shopTitle}`
 
                 return response.data.data
             } catch (error) {
@@ -103,7 +106,7 @@ export default function DetailProduct() {
                     </div>
 
                     {
-                        data?.attributes.original_price && data?.attributes.discount && (
+                        data && (
                             <div className="mt-4 flex items-baseline gap-3">
 
                                 <span className="text-primary font-semibold text-xl">
@@ -116,7 +119,7 @@ export default function DetailProduct() {
                                 {
                                     data.attributes.discount > 0 && (
                                         <span className="text-gray-500 text-base line-through">
-                                            {data?.attributes.original_price.toLocaleString("id-ID", {
+                                            {data.attributes.original_price.toLocaleString("id-ID", {
                                                 style: "currency",
                                                 currency: "IDR",
                                             })}
@@ -131,21 +134,26 @@ export default function DetailProduct() {
                     <p className="mt-4 text-gray-600">
                         {data?.attributes.short_description}
                     </p>
-                    <div className="mt-4">
-                        <h3 className="text-base text-gray-800 mb-1">Size</h3>
-                        <div className="flex items-center gap-2">
-                            {
-                                data?.attributes?.product_sizes?.data?.map((size) => (
-                                    <div className="size-selector" key={size.id}>
-                                        <p
-                                            className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
-                                            {size.attributes.name}
-                                        </p>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                    </div>
+                    {
+                        data?.attributes.product_sizes?.data?.length! > 0 && (
+                            <div className="mt-4">
+                                <h3 className="text-base text-gray-800 mb-1">Size</h3>
+                                <div className="flex items-center gap-2">
+                                    {
+                                        data?.attributes?.product_sizes?.data?.map((size) => (
+                                            <div className="size-selector" key={size.id}>
+                                                <p
+                                                    className="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
+                                                    {size.attributes.name}
+                                                </p>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                        )
+                    }
+
 
                     <div className="flex gap-3 border-b border-gray-200 pb-5 mt-6">
                         {

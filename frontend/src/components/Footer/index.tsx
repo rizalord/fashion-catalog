@@ -4,6 +4,7 @@ import api from '../../lib/api'
 import { CategoriesResponse } from '../../types/responses/categories_response'
 import logo from './../../assets/images/logo.svg'
 import { Link } from 'react-router-dom'
+import qs from 'qs'
 
 export default function Footer() {
     const { data, isLoading } = useQuery({
@@ -21,29 +22,44 @@ export default function Footer() {
         },
     })
 
+    const getCategoryNavigationUrl = (id: number) => {
+        const query = qs.stringify({
+            filters: {
+                categories: {
+                    id: {
+                        $in: [id]
+                    }
+                }
+            }
+        })
+
+        return `/shop?${query}`
+    }
+
     return (
         <footer className="bg-white pt-16 pb-12 border-t border-gray-100">
             <div className="container">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     {/* <!-- footer text --> */}
                     <div className="space-y-8 xl:col-span-1">
-                        <img className="w-30" src={logo} alt="Company name" />
+                        <img className="w-30 h-16" src={logo} alt="Company name" />
                         <p className="text-gray-500 text-base">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio facere rem
+                            Redefine your style with our exquisite fashion collection,
+                            where elegance meets innovation.
                         </p>
                         <div className="flex space-x-6">
-                            <a href="#" className="text-gray-400 hover:text-gray-500">
+                            <a href="https://www.facebook.com/profile.php?id=100072041011524" target="_blank" className="text-gray-400 hover:text-gray-500">
                                 <i className="fab fa-facebook-f"></i>
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-gray-500">
+                            {/* <a href="#" className="text-gray-400 hover:text-gray-500">
                                 <i className="fab fa-twitter"></i>
-                            </a>
-                            <a href="#" className="text-gray-400 hover:text-gray-500">
+                            </a> */}
+                            <a href="https://www.instagram.com/nukalula.id" target="_blank" className="text-gray-400 hover:text-gray-500">
                                 <i className="fab fa-instagram"></i>
                             </a>
-                            <a href="#" className="text-gray-400 hover:text-gray-500">
+                            {/* <a href="#" className="text-gray-400 hover:text-gray-500">
                                 <i className="fab fa-linkedin-in"></i>
-                            </a>
+                            </a> */}
                         </div>
                     </div>
                     {/* <!-- footer text end --> */}
@@ -57,9 +73,9 @@ export default function Footer() {
                                 <div className="mt-4 space-y-4">
                                     {
                                         !isLoading && data?.map((category) => (
-                                            <a href="#" className="text-base text-gray-500 hover:text-gray-900 block" key={category.id}>
+                                            <Link to={getCategoryNavigationUrl(category.id)} className="text-base text-gray-500 hover:text-gray-900 block" key={category.id}>
                                                 {category.attributes.name}
-                                            </a>
+                                            </Link>
                                         ))
                                     }
 
@@ -94,15 +110,15 @@ export default function Footer() {
                                     Contact
                                 </h3>
                                 <div className="mt-4 space-y-4">
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
+                                    <span className="text-base text-gray-500 block">
                                         Jl. Terusan Dieng No.57-59, Pisang Candi, Kec. Sukun, Kota Malang, Jawa Timur 65146
-                                    </a>
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
+                                    </span>
+                                    <span className="text-base text-gray-500 block">
                                         (62) 896-8156-6900
-                                    </a>
-                                    <a href="#" className="text-base text-gray-500 hover:text-gray-900 block">
+                                    </span>
+                                    <span className="text-base text-gray-500 block">
                                         example@gmail.Com
-                                    </a>
+                                    </span>
                                 </div>
                             </div>
                         </div>

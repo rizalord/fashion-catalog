@@ -4,9 +4,15 @@ import api from '../../lib/api'
 import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
 import axios from 'axios'
 import ReactMarkdown from 'react-markdown'
+import { useEffect } from 'react'
 
 export default function About() {
     const apiUrl = window._env_.API_URL
+    const shopTitle = window._env_.SHOP_TITLE
+
+    useEffect(() => {
+        document.title = "Tentang Kami | " + shopTitle
+    }, [])
 
     const { data, isLoading } = useQuery({
         queryKey: ['about'],
