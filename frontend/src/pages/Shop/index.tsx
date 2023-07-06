@@ -46,6 +46,7 @@ export default function Shop() {
                         pageSize: 9,
                         page: queryString.page || 1
                     },
+                    sort: ['id:desc'],
                     filters
                 })
 
