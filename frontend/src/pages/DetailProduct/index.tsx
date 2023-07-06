@@ -155,7 +155,7 @@ export default function DetailProduct() {
                     }
 
 
-                    <div className="flex gap-3 border-b border-gray-200 pb-5 mt-6">
+                    <div className="flex gap-3 pb-5 mt-6">
                         {
                             data?.attributes?.product_links?.data?.map((link) => (
                                 <a href={link.attributes.link}
@@ -168,23 +168,25 @@ export default function DetailProduct() {
                             ))
                         }
                     </div>
+
+
+                    {/* Product Detail */}
+                    <div className="pb-16 mt-10">
+                        <h3 className="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium">
+                            Product Details
+                        </h3>
+
+                        <div className="w-full pt-6">
+                            <div className="space-y-3 text-gray-600 prose">
+                                <ReactMarkdown children={data?.attributes.long_description as string} />
+                            </div>
+                        </div>
+                    </div>
+                    {/* End Product Detail */}
                 </div>
+                
             </div>
             {/* End Product View */}
-
-            {/* Product Detail */}
-            <div className="container pb-16">
-                <h3 className="border-b border-gray-200 font-roboto text-gray-800 pb-3 font-medium">
-                    Product Details
-                </h3>
-
-                <div className="lg:w-4/5 xl:w-3/5 pt-6">
-                    <div className="space-y-3 text-gray-600 prose">
-                        <ReactMarkdown children={data?.attributes.long_description as string} />
-                    </div>
-                </div>
-            </div>
-            {/* End Product Detail */}
         </div >
     )
 }

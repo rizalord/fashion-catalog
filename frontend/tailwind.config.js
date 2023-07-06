@@ -30,9 +30,9 @@ export default {
     },
   },
   safelist: [
-    { pattern: /bg-+/, variants: ["hover"] },
-    { pattern: /text-+/, variants: ["hover"] },
-    { pattern: /border-+/, variants: ["hover"] },
+    // { pattern: /bg-+/, variants: ["hover"] },
+    // { pattern: /text-+/, variants: ["hover"] },
+    // { pattern: /border-+/, variants: ["hover"] },
   ],
   plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 }

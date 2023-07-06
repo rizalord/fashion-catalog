@@ -16,7 +16,7 @@ export default function ProductCard({ id, image, name, originalPrice, discount }
 
             <Link to={`/products/${id}`}>
                 <div className="relative cursor-pointer">
-                    <img src={image} className="w-full aspect-[4/3]" />
+                    <img src={image} className="w-full aspect-[4/3] object-cover" />
                     <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
 
                     </div>
