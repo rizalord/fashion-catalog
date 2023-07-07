@@ -7,7 +7,6 @@ import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
 import ErrorAlert from '../../components/Alert/ErrorAlert'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import { useState } from 'react'
-import { Daum5 } from '../../types/responses/products_response'
 
 export default function DetailProduct() {
     let { id } = useParams()
