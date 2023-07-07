@@ -7,6 +7,7 @@ import LoadingPageSpinner from '../../components/Spinner/LoadingPageSpinner'
 import ErrorAlert from '../../components/Alert/ErrorAlert'
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown'
 import { useState } from 'react'
+import { Daum5 } from '../../types/responses/products_response'
 
 export default function DetailProduct() {
     let { id } = useParams()
@@ -70,12 +71,12 @@ export default function DetailProduct() {
                             <div>
                                 <img
                                     id="main-img"
-                                    src={apiUrl + data?.attributes?.images?.data![selectedImageIndex]?.attributes?.url}
+                                    src={apiUrl + data?.attributes?.images?.data!.sort((a, b) => a.id - b.id)[selectedImageIndex]?.attributes?.url}
                                     className="w-full" />
                             </div>
                             <div className="grid grid-cols-5 gap-4 mt-4">
                                 {
-                                    data?.attributes?.images?.data?.map((image, index) => (
+                                    data?.attributes?.images?.data?.sort((a, b) => a.id - b.id).map((image, index) => (
                                         <div
                                             key={image.id}
                                             onClick={() => setSelectedImageIndex(index)}

@@ -98,7 +98,7 @@ export default function Shop() {
                                     <ProductCard
                                         key={product.id}
                                         id={product.id}
-                                        image={`${apiUrl}${product.attributes.images.data[0].attributes.url}`}
+                                        images={product.attributes.images.data}
                                         name={product.attributes.title}
                                         originalPrice={product.attributes.original_price}
                                         discount={product.attributes.discount}

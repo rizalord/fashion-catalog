@@ -1,22 +1,29 @@
 import { Link } from "react-router-dom"
+import { Daum5 } from '../../types/responses/products_response'
 
 interface ProductCardProps {
     id: number
-    image: string
+    images: Daum5[]
     name: string
     originalPrice: number
     discount: number
 }
 
-export default function ProductCard({ id, image, name, originalPrice, discount }: ProductCardProps) {
+export default function ProductCard({ id, images, name, originalPrice, discount }: ProductCardProps) {
     const discountedPrice = originalPrice - (originalPrice * discount / 100)
+    const sortedImages = images.sort((a, b) => a.id - b.id)
+    const apiUrl = window._env_.API_URL
 
     return (
         <div className="group rounded bg-white shadow overflow-hidden">
 
             <Link to={`/products/${id}`}>
                 <div className="relative cursor-pointer">
-                    <img src={image} className="w-full aspect-[4/3] object-cover" />
+                    {
+                        sortedImages.length > 1 && (
+                            <img src={`${apiUrl}${sortedImages[0].attributes.url}`} className="w-full aspect-[4/3] object-cover" />
+                        )
+                    }
                     <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
 
                     </div>

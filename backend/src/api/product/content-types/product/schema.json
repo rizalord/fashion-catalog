@@ -15,9 +15,6 @@
     "title": {
       "type": "string"
     },
-    "is_available": {
-      "type": "boolean"
-    },
     "categories": {
       "type": "relation",
       "relation": "manyToMany",
@@ -53,7 +50,7 @@
     "images": {
       "type": "media",
       "multiple": true,
-      "required": false,
+      "required": true,
       "allowedTypes": [
         "images"
       ]
