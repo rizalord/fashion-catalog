@@ -14,7 +14,6 @@ import { useAppDispatch } from '../../context/store/hooks'
 import { toggleCategory } from '../../context/store/slices/categorySlice'
 
 export default function Shop() {
-    const apiUrl = window._env_.API_URL
     const shopTitle = window._env_.SHOP_TITLE
 
     let location = useLocation()
