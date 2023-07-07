@@ -92,7 +92,7 @@ export default function Home() {
                         <ProductCard
                             key={product.id}
                             id={product.product.data.id}
-                            image={`${apiUrl}${product.product.data.attributes.images.data[0].attributes.url}`}
+                            images={product.product.data.attributes.images.data}
                             name={product.product.data.attributes.title}
                             originalPrice={product.product.data.attributes.original_price}
                             discount={product.product.data.attributes.discount}
@@ -122,7 +122,7 @@ export default function Home() {
                         <ProductCard
                             key={product.id}
                             id={product.product.data.id}
-                            image={`${apiUrl}${product.product.data.attributes.images.data[0].attributes.url}`}
+                            images={product.product.data.attributes.images.data}
                             name={product.product.data.attributes.title}
                             originalPrice={product.product.data.attributes.original_price}
                             discount={product.product.data.attributes.discount}

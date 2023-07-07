@@ -16,24 +16,31 @@
       "displayName": "Banner",
       "type": "component",
       "repeatable": false,
-      "component": "page.banner"
+      "component": "page.banner",
+      "required": true
     },
     "features": {
       "displayName": "Feature",
       "type": "component",
       "repeatable": true,
-      "component": "page.feature"
+      "component": "page.feature",
+      "max": 3,
+      "required": true
     },
     "categories": {
       "displayName": "Category",
       "type": "component",
       "repeatable": true,
-      "component": "card.category"
+      "component": "card.category",
+      "max": 6,
+      "required": true
     },
     "top_new_products": {
       "type": "component",
       "repeatable": true,
-      "component": "card.product"
+      "component": "card.product",
+      "max": 4,
+      "required": true
     },
     "ad": {
       "displayName": "Ad",
@@ -44,7 +51,9 @@
     "recommend_products": {
       "type": "component",
       "repeatable": true,
-      "component": "card.product"
+      "component": "card.product",
+      "max": 4,
+      "required": true
     }
   }
 }
