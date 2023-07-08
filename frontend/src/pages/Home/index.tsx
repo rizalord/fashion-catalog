@@ -47,10 +47,10 @@ export default function Home() {
         >
             <div className="container">
                 <h1 className="xl:text-6xl md:text-5xl text-4xl text-gray-800 font-medium mb-4">
-                    {parse(data?.attributes.banner.title as string)}
+                    {parse(data?.attributes.banner.title || '')}
                 </h1>
                 <p className="text-base text-gray-600 leading-6">
-                    {parse(data?.attributes.banner.description as string)}
+                    {parse(data?.attributes.banner.description || '')}
                 </p>
                 <div className="mt-12">
                     <a href={data?.attributes.banner.button.url} className="bg-primary border border-primary text-white px-8 py-3 font-medium rounded-md uppercase hover:bg-transparent hover:text-primary transition">
